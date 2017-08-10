@@ -9,6 +9,13 @@
 #ifndef MemoryManager_h
 #define MemoryManager_h
 
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+#include "FixedWidthTypes.h"
+#include "ResourcePath.hpp"
+
 class MemoryManager {
 private:
     // GBC supports switchable memory banks. These vals indicate which banks are active.
@@ -17,14 +24,14 @@ private:
     uint8_t activeWorkingRAMBank = 0;
     
     // Buffers for switchable memory banks
-    uint8_t additionalCharDataBank[8000];
-    uint8_t additionalWorkingRamBankOne[8000];
-    uint8_t additionalWorkingRamBankTwo[8000];
-    uint8_t additionalWorkingRamBankThree[8000];
-    uint8_t additionalWorkingRamBankFour[8000];
-    uint8_t additionalWorkingRamBankFive[8000];
-    uint8_t additionalWorkingRamBankSix[8000];
-    uint8_t additionalWorkingRamBankSeven[8000];
+    uint8_t additionalCharDataBank[0x2000];
+    uint8_t additionalWorkingRamBankOne[0x1000];
+    uint8_t additionalWorkingRamBankTwo[0x1000];
+    uint8_t additionalWorkingRamBankThree[0x1000];
+    uint8_t additionalWorkingRamBankFour[0x1000];
+    uint8_t additionalWorkingRamBankFive[0x1000];
+    uint8_t additionalWorkingRamBankSix[0x1000];
+    uint8_t additionalWorkingRamBankSeven[0x1000];
     uint8_t* additionalWorkingRamBanks[7] = {
         additionalWorkingRamBankOne,
         additionalWorkingRamBankTwo,
@@ -36,11 +43,11 @@ private:
     };
     
     // Main memory buffer
-    uint8_t mainMemory[65536];
+    uint8_t mainMemory[0x10000];
 public:
     // Simply sets the active bank (0 - 1 for Character Data, 0 - 7 for Working RAM)
-    void setCharacterDataBank(uint8_t bank);
-    void setWorkingRAMBank(uint8_t bank);
+    void setCharacterDataBank(int bank);
+    void setWorkingRAMBank(int bank);
     
     // Initialize the memory map to a valid state. Can be used to reset system memory.
     void initialize();
@@ -53,7 +60,7 @@ public:
     uint8_t readData(uint16_t address);
     void writeData(uint16_t address, uint8_t data);
     
-    // Output the current state of memory to a file called 'mem_dump.txt'
+    // Output the current state of memory to a file called 'debug_mem_dump.txt'
     void debugDumpMem();
 };
 

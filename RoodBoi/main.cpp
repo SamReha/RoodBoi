@@ -5,8 +5,8 @@
 #include "MemoryManager.h"
 #include "CentralProcessingUnit.h"
 
-MemoryManager memManager();
-CentralProcessingUnit cpu();
+MemoryManager memManager;
+CentralProcessingUnit cpu;
 
 int main(int, char const**) {
     // Create the main window
@@ -18,6 +18,9 @@ int main(int, char const**) {
         return EXIT_FAILURE;
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    
+    // Test memory
+    memManager.debugDumpMem();
 
     // Main Loop
     while (window.isOpen()) {

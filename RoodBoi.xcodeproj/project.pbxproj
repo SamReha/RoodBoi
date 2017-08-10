@@ -10,6 +10,7 @@
 		E40BE17A1F3BD0EE005BB52D /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = E40BE1791F3BD0EE005BB52D /* ResourcePath.mm */; };
 		E40BE17D1F3BD0EE005BB52D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E40BE17C1F3BD0EE005BB52D /* main.cpp */; };
 		E40BE1861F3BD0EE005BB52D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E40BE1851F3BD0EE005BB52D /* icon.png */; };
+		E40BE18F1F3CE24D005BB52D /* MemoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E40BE18E1F3CE24D005BB52D /* MemoryManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,8 @@
 		E40BE1851F3BD0EE005BB52D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E40BE18C1F3BF23A005BB52D /* MemoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryManager.h; sourceTree = "<group>"; };
 		E40BE18D1F3BF3FB005BB52D /* CentralProcessingUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CentralProcessingUnit.h; sourceTree = "<group>"; };
+		E40BE18E1F3CE24D005BB52D /* MemoryManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryManager.cpp; sourceTree = "<group>"; };
+		E40BE1901F3CE5F5005BB52D /* FixedWidthTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FixedWidthTypes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +62,9 @@
 				E40BE17E1F3BD0EE005BB52D /* Resources */,
 				E40BE1771F3BD0EE005BB52D /* Supporting Files */,
 				E40BE18C1F3BF23A005BB52D /* MemoryManager.h */,
+				E40BE18E1F3CE24D005BB52D /* MemoryManager.cpp */,
 				E40BE18D1F3BF3FB005BB52D /* CentralProcessingUnit.h */,
+				E40BE1901F3CE5F5005BB52D /* FixedWidthTypes.h */,
 			);
 			path = RoodBoi;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E40BE18F1F3CE24D005BB52D /* MemoryManager.cpp in Sources */,
 				E40BE17D1F3BD0EE005BB52D /* main.cpp in Sources */,
 				E40BE17A1F3BD0EE005BB52D /* ResourcePath.mm in Sources */,
 			);
