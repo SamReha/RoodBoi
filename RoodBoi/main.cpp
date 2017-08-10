@@ -2,8 +2,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "ResourcePath.hpp"
+#include "MemoryManager.h"
+#include "CentralProcessingUnit.h"
 
-int memory_map[4000];
+MemoryManager memManager();
+CentralProcessingUnit cpu();
 
 int main(int, char const**) {
     // Create the main window

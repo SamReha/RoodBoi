@@ -19,6 +19,8 @@
 		E40BE17B1F3BD0EE005BB52D /* ResourcePath.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResourcePath.hpp; sourceTree = "<group>"; };
 		E40BE17C1F3BD0EE005BB52D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E40BE1851F3BD0EE005BB52D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		E40BE18C1F3BF23A005BB52D /* MemoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryManager.h; sourceTree = "<group>"; };
+		E40BE18D1F3BF3FB005BB52D /* CentralProcessingUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CentralProcessingUnit.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,8 @@
 				E40BE17C1F3BD0EE005BB52D /* main.cpp */,
 				E40BE17E1F3BD0EE005BB52D /* Resources */,
 				E40BE1771F3BD0EE005BB52D /* Supporting Files */,
+				E40BE18C1F3BF23A005BB52D /* MemoryManager.h */,
+				E40BE18D1F3BF3FB005BB52D /* CentralProcessingUnit.h */,
 			);
 			path = RoodBoi;
 			sourceTree = "<group>";
