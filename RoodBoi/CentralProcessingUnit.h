@@ -11,7 +11,7 @@
 
 class CentralProcessingUnit {
 private:
-    uint8_t registers[7];
+    uint8_t registers[8];
     uint16_t programCounter = 0;
     uint16_t otherRegister = 0;
     
