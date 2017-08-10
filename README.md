@@ -1,5 +1,5 @@
 # RoodBoi
-A compact, portable GameBoy emulator written in C++11 with SFML
+A compact, portable GameBoy emulator written in C++11 with SFML.
 Check us out at https://github.com/SamReha/RoodBoi/
 
 ## TO DO
