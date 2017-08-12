@@ -12,11 +12,41 @@
 
 // public
 void MemoryManager::setCharacterDataBank(int bank) {
-    activeCharacterDataBank = (uint8_t)bank;
+    activeCharacterDataBank = (uint8_t)std::min(std::max(bank, 0), 1);
 }
 
 void MemoryManager::setWorkingRAMBank(int bank) {
-    activeWorkingRAMBank = (uint8_t)bank;
+    activeWorkingRAMBank = (uint8_t)std::min(std::max(bank, 0), 7);
+}
+
+uint8_t MemoryManager::readData(uint16_t address) {
+    // If we're looking at the character data bank, show the banked memory if in use
+    if (address >= 0x8000 && address < 0xA000 && activeCharacterDataBank == 1) {
+        return additionalCharDataBank[address - 0x8000];
+    }
+    
+    // If we're looking at the banked portion of working RAM, get the data from the appropriate bank
+    if (address >= 0xD000 && address < 0xE000) {
+        return additionalWorkingRamBanks[activeWorkingRAMBank-1][address - 0xD000];
+    }
+    
+    return mainMemory[address];
+}
+
+void MemoryManager::writeData(uint16_t address, uint8_t data) {
+    // If we're looking at the character data bank, write to the banked memory if in use
+    if (address >= 0x8000 && address < 0xA000 && activeCharacterDataBank == 1) {
+        additionalCharDataBank[address - 0x8000] = data;
+        return;
+    }
+    
+    // If we're looking at working RAM, write the data to the appropriate bank
+    if (address >= 0xD000 && address < 0xE000) {
+        additionalWorkingRamBanks[activeWorkingRAMBank-1][address - 0xD000] = data;
+        return;
+    }
+    
+    mainMemory[address] = data;
 }
 
 void MemoryManager::debugDumpMem() {

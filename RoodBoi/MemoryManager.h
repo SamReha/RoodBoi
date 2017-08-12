@@ -13,6 +13,8 @@
 #include <fstream>
 #include <iomanip>
 
+#include "math.h"
+
 #include "FixedWidthTypes.h"
 #include "ResourcePath.hpp"
 
@@ -25,6 +27,7 @@ private:
     
     // Buffers for switchable memory banks
     uint8_t additionalCharDataBank[0x2000];
+    
     uint8_t additionalWorkingRamBankOne[0x1000];
     uint8_t additionalWorkingRamBankTwo[0x1000];
     uint8_t additionalWorkingRamBankThree[0x1000];

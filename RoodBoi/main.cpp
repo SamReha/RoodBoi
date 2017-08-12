@@ -20,7 +20,12 @@ int main(int, char const**) {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     
     // Test memory
-    memManager.debugDumpMem();
+    //memManager.writeData(0x8000, 12);
+    //memManager.setWorkingRAMBank(2);
+    //memManager.writeData(0xD001, 0xff);
+    //memManager.setWorkingRAMBank(7);
+    //memManager.writeData(0xD123, 0xed);
+    //memManager.debugDumpMem();
 
     // Main Loop
     while (window.isOpen()) {
