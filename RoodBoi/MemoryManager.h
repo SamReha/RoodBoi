@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <vector>
 
 #include "math.h"
 
@@ -20,43 +21,44 @@
 
 class MemoryManager {
 private:
-    // GBC supports switchable memory banks. These vals indicate which banks are active.
-    // There are up to two Character Data banks and up to 8 Working RAM banks
-    uint8_t activeCharacterDataBank = 0;
-    uint8_t activeWorkingRAMBank = 0;
-    
     // Buffers for switchable memory banks
     uint8_t additionalCharDataBank[0x2000];
     
-    uint8_t additionalWorkingRamBankOne[0x1000];
-    uint8_t additionalWorkingRamBankTwo[0x1000];
-    uint8_t additionalWorkingRamBankThree[0x1000];
-    uint8_t additionalWorkingRamBankFour[0x1000];
-    uint8_t additionalWorkingRamBankFive[0x1000];
-    uint8_t additionalWorkingRamBankSix[0x1000];
-    uint8_t additionalWorkingRamBankSeven[0x1000];
-    uint8_t* additionalWorkingRamBanks[7] = {
-        additionalWorkingRamBankOne,
-        additionalWorkingRamBankTwo,
-        additionalWorkingRamBankThree,
-        additionalWorkingRamBankFour,
-        additionalWorkingRamBankFive,
-        additionalWorkingRamBankSix,
-        additionalWorkingRamBankSeven
+    uint8_t  workingRAMBankOne  [0x1000];
+    uint8_t  workingRAMBankTwo  [0x1000];
+    uint8_t  workingRAMBankThree[0x1000];
+    uint8_t  workingRAMBankFour [0x1000];
+    uint8_t  workingRAMBankFive [0x1000];
+    uint8_t  workingRAMBankSix  [0x1000];
+    uint8_t  workingRAMBankSeven[0x1000];
+    uint8_t* workingRAMBanks[7] = {
+        workingRAMBankOne,
+        workingRAMBankTwo,
+        workingRAMBankThree,
+        workingRAMBankFour,
+        workingRAMBankFive,
+        workingRAMBankSix,
+        workingRAMBankSeven
     };
     
     // Main memory buffer
     uint8_t mainMemory[0x10000];
+    
+    // ROMBuffer doesn't use uint8_t and instead counts on chars being 8 bit, which is rough.
+    char* ROMBuffer = 0;
+    int ROMBufferSize = 0;
 public:
-    // Simply sets the active bank (0 - 1 for Character Data, 0 - 7 for Working RAM)
-    void setCharacterDataBank(int bank);
-    void setWorkingRAMBank(int bank);
+    // Some memory is controlled by switchable memory banks (especially in CGB mode).
+    // These vals indicate which banks are active.
+    // There are up to two Character Data banks and up to 8 Working RAM banks
+    uint8_t activeCharacterDataBank = 0;
+    uint8_t activeWorkingRAMBank = 0;
     
     // Initialize the memory map to a valid state. Can be used to reset system memory.
     void initialize();
     
     // Load a ROM into memory from disk
-    void loadROM();
+    void loadROM(std::string path);
     
     // Read or write data from a memory address, taking into consideration what banks are active
     // and other special circumstances (key input registers, shadow regions, etc)

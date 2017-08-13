@@ -11,12 +11,38 @@
 // private
 
 // public
-void MemoryManager::setCharacterDataBank(int bank) {
-    activeCharacterDataBank = (uint8_t)std::min(std::max(bank, 0), 1);
-}
-
-void MemoryManager::setWorkingRAMBank(int bank) {
-    activeWorkingRAMBank = (uint8_t)std::min(std::max(bank, 0), 7);
+void MemoryManager::loadROM(std::string path) {
+    // Attempt to open file in binary input mode
+    std::ifstream rom;
+    rom.open(path, std::ios::in | std::ios::binary);
+    
+    if (!rom.is_open()) {
+        // TODO: Throw an error!
+        return;
+    }
+    
+    // Load the entire rom into the ROM buffer
+    //std::streampos size = rom.tellg();
+    //ROMBufferLength = rom.tellg();
+    //ROMBuffer = new char[ROMBufferLength];
+    //rom.seekg (0, std::ios::beg);
+    //rom.read (ROMBuffer, ROMBufferLength);
+    //rom.close();
+    
+    rom.seekg(0, std::ifstream::end);
+    ROMBufferSize = rom.tellg();
+    rom.seekg(0, std::ios::beg);
+    
+    ROMBuffer = new char[ROMBufferSize];
+    
+    rom.read(ROMBuffer, ROMBufferSize);
+    rom.close();
+    
+    // Copy the first 32 kB into the main buffer
+    for (int i = 0x0000; i < 0x8000; i++) {
+        if (i >= ROMBufferSize) break;
+        writeData(i, ROMBuffer[i]);
+    }
 }
 
 uint8_t MemoryManager::readData(uint16_t address) {
@@ -27,7 +53,7 @@ uint8_t MemoryManager::readData(uint16_t address) {
     
     // If we're looking at the banked portion of working RAM, get the data from the appropriate bank
     if (address >= 0xD000 && address < 0xE000) {
-        return additionalWorkingRamBanks[activeWorkingRAMBank-1][address - 0xD000];
+        return workingRAMBanks[activeWorkingRAMBank-1][address - 0xD000];
     }
     
     return mainMemory[address];
@@ -42,7 +68,7 @@ void MemoryManager::writeData(uint16_t address, uint8_t data) {
     
     // If we're looking at working RAM, write the data to the appropriate bank
     if (address >= 0xD000 && address < 0xE000) {
-        additionalWorkingRamBanks[activeWorkingRAMBank-1][address - 0xD000] = data;
+        workingRAMBanks[activeWorkingRAMBank-1][address - 0xD000] = data;
         return;
     }
     
@@ -52,6 +78,12 @@ void MemoryManager::writeData(uint16_t address, uint8_t data) {
 void MemoryManager::debugDumpMem() {
     std::ofstream myfile;
     myfile.open("debug_mem_dump.txt");
+    
+    // myfile << "ROM Buffer" << std::endl;
+    // for (int i = 0; i < ROMBufferSize; i++) {
+    //     myfile << std::setfill('0') << std::setw(4) << std::hex << ROMBuffer[i] << std::endl;
+    // }
+    // myfile << std::endl;
     
     myfile << "Interrupt Address / RST Address" << std::endl;
     for (int i = 0x0000; i < 0x0100; i++) {
@@ -118,13 +150,13 @@ void MemoryManager::debugDumpMem() {
     for (int i = 0xD000; i < 0xE000; i++) {
         myfile << "0x" << std::setfill('0') << std::setw(4) << std::hex << i << " " <<
         // std::setw(2) << (uint)mainMemory[i] << "      " << UNUSED
-        std::setw(2) << (uint)additionalWorkingRamBanks[0][i - 0xD000] << "      " <<
-        std::setw(2) << (uint)additionalWorkingRamBanks[1][i - 0xD000] << "      " <<
-        std::setw(2) << (uint)additionalWorkingRamBanks[2][i - 0xD000] << "      " <<
-        std::setw(2) << (uint)additionalWorkingRamBanks[3][i - 0xD000] << "      " <<
-        std::setw(2) << (uint)additionalWorkingRamBanks[4][i - 0xD000] << "      " <<
-        std::setw(2) << (uint)additionalWorkingRamBanks[5][i - 0xD000] << "      " <<
-        std::setw(2) << (uint)additionalWorkingRamBanks[6][i - 0xD000] << std::endl;
+        std::setw(2) << (uint)workingRAMBanks[0][i - 0xD000] << "      " <<
+        std::setw(2) << (uint)workingRAMBanks[1][i - 0xD000] << "      " <<
+        std::setw(2) << (uint)workingRAMBanks[2][i - 0xD000] << "      " <<
+        std::setw(2) << (uint)workingRAMBanks[3][i - 0xD000] << "      " <<
+        std::setw(2) << (uint)workingRAMBanks[4][i - 0xD000] << "      " <<
+        std::setw(2) << (uint)workingRAMBanks[5][i - 0xD000] << "      " <<
+        std::setw(2) << (uint)workingRAMBanks[6][i - 0xD000] << std::endl;
     }
     myfile << std::endl;
     
@@ -157,14 +189,14 @@ void MemoryManager::debugDumpMem() {
     myfile << std::endl;
     
     myfile << "Working and Stack RAM (127 Bytes)" << std::endl;
-    for (int i = 0xFF80; i < 0xFFFE; i++) {
+    for (int i = 0xFF80; i < 0xFFFF; i++) {
         myfile << "0x" << std::setfill('0') << std::setw(4) << std::hex << i << " " <<
         std::setw(2) << (uint)mainMemory[i] << std::endl;
     }
     myfile << std::endl;
     
-    myfile << "Unlabeled Area" << std::endl;
-    for (int i = 0xFFFE; i < 0x10000; i++) {
+    myfile << "Interrupt Enable Register" << std::endl;
+    for (int i = 0xFFFF; i < 0x10000; i++) {
         myfile << "0x" << std::setfill('0') << std::setw(4) << std::hex << i << " " <<
         std::setw(2) << (uint)mainMemory[i] << std::endl;
     }

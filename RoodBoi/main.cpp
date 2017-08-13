@@ -26,6 +26,10 @@ int main(int, char const**) {
     //memManager.setWorkingRAMBank(7);
     //memManager.writeData(0xD123, 0xed);
     //memManager.debugDumpMem();
+    
+    //memManager.loadROM(resourcePath() + "Tetris.gb");
+    memManager.loadROM("/Users/samreha/Documents/roms/gb/Tetris.gb");
+    memManager.debugDumpMem();
 
     // Main Loop
     while (window.isOpen()) {
