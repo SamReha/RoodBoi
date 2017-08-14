@@ -22,8 +22,17 @@
 class MemoryManager {
 private:
     // Buffers for switchable memory banks
-    uint8_t additionalCharDataBank[0x2000];
+    uint8_t VRAMBankZero[0x2000];
+    uint8_t VRAMBankOne[0x2000];
+    uint8_t* VRAMBanks[2] = {
+        VRAMBankZero,
+        VRAMBankOne
+    };
     
+    // May need to be bankable
+    uint8_t externalRAM[0x2000];
+    
+    uint8_t  workingRAMBankZero [0x1000];
     uint8_t  workingRAMBankOne  [0x1000];
     uint8_t  workingRAMBankTwo  [0x1000];
     uint8_t  workingRAMBankThree[0x1000];
@@ -31,7 +40,8 @@ private:
     uint8_t  workingRAMBankFive [0x1000];
     uint8_t  workingRAMBankSix  [0x1000];
     uint8_t  workingRAMBankSeven[0x1000];
-    uint8_t* workingRAMBanks[7] = {
+    uint8_t* workingRAMBanks[8] = {
+        workingRAMBankZero,
         workingRAMBankOne,
         workingRAMBankTwo,
         workingRAMBankThree,
@@ -41,18 +51,21 @@ private:
         workingRAMBankSeven
     };
     
-    // Main memory buffer
-    uint8_t mainMemory[0x10000];
+    uint8_t spriteAttributeTable[0x00A0];
     
-    // ROMBuffer doesn't use uint8_t and instead counts on chars being 8 bit, which is rough.
-    char* ROMBuffer = 0;
+    // Mashed these all together since they are actually contiguous in the Mem Map
+    uint8_t ioPortsHRAMandIEReg[0x0100];
+    
+    // ROM Banks are just offsets into this buffer
+    uint8_t* ROMBuffer = 0;
     int ROMBufferSize = 0;
 public:
     // Some memory is controlled by switchable memory banks (especially in CGB mode).
     // These vals indicate which banks are active.
     // There are up to two Character Data banks and up to 8 Working RAM banks
-    uint8_t activeCharacterDataBank = 0;
-    uint8_t activeWorkingRAMBank = 0;
+    uint8_t activeROMBank = 1;
+    uint8_t activeVRAMBank = 0;
+    uint8_t activeWorkingRAMBank = 1;
     
     // Initialize the memory map to a valid state. Can be used to reset system memory.
     void initialize();
