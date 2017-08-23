@@ -21,6 +21,9 @@
 
 class MemoryManager {
 private:
+    // Singleton should keep its constructor private
+    MemoryManager() {};
+    
     // Buffers for switchable memory banks
     uint8_t VRAMBankZero[0x2000];
     uint8_t VRAMBankOne[0x2000];
@@ -56,10 +59,20 @@ private:
     // Mashed these all together since they are actually contiguous in the Mem Map
     uint8_t ioPortsHRAMandIEReg[0x0100];
     
-    // ROM Banks are just offsets into this buffer
+    // On-cart ROM Banks are just offsets into this buffer
     uint8_t* ROMBuffer = 0;
     int ROMBufferSize = 0;
 public:
+    // Singleton should publicly delete = operators
+    MemoryManager(MemoryManager const&) = delete;
+    MemoryManager& operator=(MemoryManager const&) = delete;
+    
+    // Get THE instance of the mem manager
+    static std::shared_ptr<MemoryManager> instance() {
+        static std::shared_ptr<MemoryManager> s{new MemoryManager};
+        return s;
+    }
+    
     // Some memory is controlled by switchable memory banks (especially in CGB mode).
     // These vals indicate which banks are active.
     // There are up to two Character Data banks and up to 8 Working RAM banks

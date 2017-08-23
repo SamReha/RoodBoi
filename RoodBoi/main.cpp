@@ -5,7 +5,6 @@
 #include "MemoryManager.h"
 #include "CentralProcessingUnit.h"
 
-MemoryManager memManager;
 CentralProcessingUnit cpu;
 
 int main(int, char const**) {
@@ -20,16 +19,10 @@ int main(int, char const**) {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     
     // Test memory
-    //memManager.writeData(0x8000, 12);
-    //memManager.setWorkingRAMBank(2);
-    //memManager.writeData(0xD001, 0xff);
-    //memManager.setWorkingRAMBank(7);
-    //memManager.writeData(0xD123, 0xed);
-    //memManager.debugDumpMem();
+    MemoryManager::instance()->loadROM("/Users/samreha/Documents/roms/gb/Tetris.gb");
+    MemoryManager::instance()->debugDumpMem();
     
-    //memManager.loadROM(resourcePath() + "Tetris.gb");
-    memManager.loadROM("/Users/samreha/Documents/roms/gb/Tetris.gb");
-    memManager.debugDumpMem();
+    cpu.initialize();
 
     // Main Loop
     while (window.isOpen()) {
@@ -46,6 +39,8 @@ int main(int, char const**) {
                 window.close();
             }
         }
+        
+        cpu.tick();
 
         // Draw one frame
         window.clear();

@@ -9,13 +9,27 @@
 #ifndef CentralProcessingUnit_h
 #define CentralProcessingUnit_h
 
+#include <SFML/Graphics.hpp>
+
+#include "FixedWidthTypes.h"
+#include "MemoryManager.h"
+
 class CentralProcessingUnit {
 private:
     uint8_t registers[8];
     uint16_t programCounter = 0;
-    uint16_t otherRegister = 0;
+    uint16_t stackPointer = 0;
+    
+    // Clockspeed in MHz
+    float dmgClockSpeed = 4.194304;
+    float cgbClockSpeed = 8.4;
+    
+    sf::Clock cpuClock;
     
 public:
+    float clockSpeed = dmgClockSpeed;
+    
+    void initialize();
     void tick();
 };
 

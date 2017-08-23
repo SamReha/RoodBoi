@@ -131,17 +131,7 @@ void MemoryManager::writeData(uint16_t address, uint8_t data) {
 void MemoryManager::debugDumpMem() {
     std::ofstream myfile;
     myfile.open("debug_mem_dump.txt");
-    
-    // TEST - larger than 80 gets prefixed with 1's??
-    myfile << std::hex << " " << std::setw(2) << 70 << std::endl;
-    myfile << std::hex << " " << std::setw(2) << 80 << std::endl;
-    
-    // myfile << "ROM Buffer" << std::endl;
-    // for (int i = 0; i < ROMBufferSize; i++) {
-    //     myfile << std::setfill('0') << std::setw(4) << std::hex << ROMBuffer[i] << std::endl;
-    // }
-    // myfile << std::endl;
-    
+
     myfile << "Interrupt Address / RST Address" << std::endl;
     for (int i = 0x0000; i < 0x0100; i++) {
         myfile << "0x" << std::setfill('0') << std::setw(4) << std::hex << i << " " <<
