@@ -6,7 +6,21 @@
 
 CentralProcessingUnit cpu;
 
-int main(int, char const**) {
+std::string romPath;
+
+int main(int numArgs, char const** args) {
+    // Get ROM path
+    if (numArgs != 2) {
+        std::cout << "Usage: roodboi [path_to_rom]" << std::endl;
+
+        if (numArgs > 2) return EXIT_FAILURE;
+
+        // I'm lazy, lol
+        std::cout << "Using default ROM path..." << std::endl;
+        romPath = "/Users/samreha/Documents/roms/gb/Tetris.gb";
+    } else
+        romPath = args[1];
+
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "RoodBoi");
 
@@ -26,7 +40,12 @@ int main(int, char const**) {
     text.setFillColor(sf::Color::White);
 
     // Test memory
-    MemoryManager::instance()->loadROM("/Users/samreha/Documents/roms/gb/Tetris.gb");
+    try {
+        MemoryManager::instance()->loadROM(romPath);
+    } catch (const char* msg) {
+        std::cout << "Failed to open ROM \"" << romPath << "\" with error message: " << msg << std::endl;
+        return EXIT_FAILURE;
+    }
     MemoryManager::instance()->debugDumpMem();
 
     cpu.initialize();
