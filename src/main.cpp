@@ -1,7 +1,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "ResourcePath.hpp"
 #include "MemoryManager.h"
 #include "CentralProcessingUnit.h"
 
@@ -13,15 +12,23 @@ int main(int, char const**) {
 
     // Set the Icon
     sf::Image icon;
-    if (!icon.loadFromFile(resourcePath() + "icon.png")) {
+    if (!icon.loadFromFile("media/images/icon.png")) {
         return EXIT_FAILURE;
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    
+
+    // CPU debug text
+    sf::Font font;
+    font.loadFromFile("media/fonts/arial.ttf");
+
+    sf::Text text("CPU STATE:", font);
+    text.setCharacterSize(30);
+    text.setFillColor(sf::Color::White);
+
     // Test memory
     MemoryManager::instance()->loadROM("/Users/samreha/Documents/roms/gb/Tetris.gb");
     MemoryManager::instance()->debugDumpMem();
-    
+
     cpu.initialize();
 
     // Main Loop
@@ -39,12 +46,19 @@ int main(int, char const**) {
                 window.close();
             }
         }
-        
+
         cpu.tick();
+
+        text.setString("CPU STATE:\nAF:" + std::to_string(cpu.getRegisterValue(AF))
+                       + "\nBC:" + std::to_string(cpu.getRegisterValue(BC))
+                       + "\nDE:" + std::to_string(cpu.getRegisterValue(DE))
+                       + "\nHL:" + std::to_string(cpu.getRegisterValue(HL))
+                       + "\nSP:" + std::to_string(cpu.getRegisterValue(SP))
+                       + "\nPC:" + std::to_string(cpu.getRegisterValue(PC)));
 
         // Draw one frame
         window.clear();
-
+        window.draw(text);
         window.display();
     }
 

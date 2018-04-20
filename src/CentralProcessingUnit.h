@@ -14,23 +14,42 @@
 #include "FixedWidthTypes.h"
 #include "MemoryManager.h"
 
+enum CPU_REGISTER {
+    AF,
+    BC,
+    DE,
+    HL,
+    PC,
+    SP
+};
+
 class CentralProcessingUnit {
 private:
-    uint8_t registers[8];
+    uint16_t registerAF = 0;
+    uint16_t registerBC = 0;
+    uint16_t registerDE = 0;
+    uint16_t registerHL = 0;
     uint16_t programCounter = 0;
     uint16_t stackPointer = 0;
-    
+
     // Clockspeed in MHz
     float dmgClockSpeed = 4.194304;
     float cgbClockSpeed = 8.4;
-    
+
     sf::Clock cpuClock;
-    
+
+    // Operations
+    void loadWithStackPointer();
+    void loadToRegister(uint8_t);
+    void addToHL(uint8_t);
+
 public:
     float clockSpeed = dmgClockSpeed;
-    
+
     void initialize();
     void tick();
+
+    uint16_t getRegisterValue(CPU_REGISTER reg);
 };
 
 #endif /* CentralProcessingUnit_h */

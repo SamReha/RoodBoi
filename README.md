@@ -5,7 +5,7 @@ Check us out at https://github.com/SamReha/RoodBoi/
 ## TO DO
 At this point, basically everything still needs to be done.
 * CPU Emulation
-* Memory Emulation (including RAM, ROM and bank switching)
+* ---Memory Emulation (including RAM, ROM and bank switching)
 * Video Output (probably involving LCDC emulation)
 * Sound Output (certainly involving sound hardware emulation)
 * Filesystem Interactions (config file, ROM loading, and save file management)
