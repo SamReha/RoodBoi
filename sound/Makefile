@@ -4,8 +4,5 @@ SOURCE = \
 
 make:
 	for s in $(SOURCE); do \
-		$(CXX) $$s -o SoundProcessor.o $(SFML_LIBS) $(LIBS); \
+		$(CXX) -c -o ../build/SoundProcessor.o $$s; \
 	done
-
-clean:
-	rm SoundProcessor.o

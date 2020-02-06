@@ -4,8 +4,5 @@ SOURCE = \
 
 make:
 	for s in $(SOURCE); do \
-		$(CXX) $$s -o MemoryManager.o $(SFML_LIBS) $(LIBS); \
+		$(CXX) -c -o ../build/MemoryManager.o $$s; \
 	done
-
-clean:
-	rm MemoryManager.o

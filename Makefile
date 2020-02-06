@@ -18,7 +18,8 @@ roodboi:
 		 $(MAKE) -C $$path; \
 	done
 
+	$(CXX) -o roodboi.exe $(wildcard build/*.o) $(SFML_LIBS) $(LIBS)
+
 clean:
-	for path in $(MAKE_PATHS); do \
-		$(MAKE) -C $$path clean; \
-	done
+	rm build/*.o
+	rm roodboi.exe

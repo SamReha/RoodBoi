@@ -4,8 +4,5 @@ SOURCE = \
 
 make:
 	for s in $(SOURCE); do \
-		$(CXX) $$s -o main.o $(SFML_LIBS) $(LIBS); \
+		$(CXX) -c -o ../build/main.o  $$s; \
 	done
-
-clean:
-	rm main.o

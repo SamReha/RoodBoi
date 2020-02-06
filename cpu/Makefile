@@ -4,8 +4,5 @@ SOURCE = \
 
 make:
 	for s in $(SOURCE); do \
-		$(CXX) $$s -o CentralProcessingUnit.o $(SFML_LIBS) $(LIBS); \
+		$(CXX) -c -o ../build/CentralProcessingUnit.o $$s; \
 	done
-
-clean:
-	rm CentralProcessingUnit.o

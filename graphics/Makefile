@@ -4,8 +4,5 @@ SOURCE = \
 
 make:
 	for s in $(SOURCE); do \
-		$(CXX) $$s -o PictureProcessor.o $(SFML_LIBS) $(LIBS); \
+		$(CXX) -c -o ../build/PictureProcessor.o $$s; \
 	done
-
-clean:
-	rm PictureProcessor.o
