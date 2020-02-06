@@ -13,10 +13,11 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include <memory>
 
 #include "math.h"
 
-#include "FixedWidthTypes.h"
+#include "../main/FixedWidthTypes.h"
 
 class MemoryManager {
 private:

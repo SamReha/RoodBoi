@@ -11,8 +11,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "FixedWidthTypes.h"
-#include "MemoryManager.h"
+#include "../main/FixedWidthTypes.h"
+#include "../memory/MemoryManager.h"
 
 enum CPU_REGISTER {
     AF,

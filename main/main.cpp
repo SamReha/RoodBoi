@@ -1,8 +1,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "MemoryManager.h"
-#include "CentralProcessingUnit.h"
+#include "../memory/MemoryManager.h"
+#include "../cpu/CentralProcessingUnit.h"
 
 CentralProcessingUnit cpu;
 
